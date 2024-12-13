@@ -41,44 +41,38 @@ def newton_raphson():
     tol = float(input("Masukkan toleransi error: "))
     max_iter = int(input("Masukkan iterasi maksimal: "))
 
-    # Menggunakan sympy untuk konversi ekspresi
     x = sp.symbols('x')
     try:
         fx = sp.sympify(fx_str)
-        dfx = sp.sympify(fx1_str)
+        fx_aksen = sp.sympify(fx1_str)
     except sp.SympifyError:
         print("Fungsi tidak valid. Pastikan fungsi ditulis dengan benar.")
         return
 
-    # Membuat fungsi numerik menggunakan numpy
-    f_lambdified = sp.lambdify(x, fx, 'numpy')
-    df_lambdified = sp.lambdify(x, dfx, 'numpy')
 
-    # Iterasi Newton-Raphson
+    f_x = sp.lambdify(x, fx, 'numpy')
+    f_x_aksen = sp.lambdify(x, fx_aksen, 'numpy')
+
     iteration = 0
     while iteration < max_iter:
-        fx_val = f_lambdified(x0)
-        dfx_val = df_lambdified(x0)
+        fx_value = f_x(x0)
+        fx_aksen_value = f_x_aksen(x0)
 
-        # Cek apakah turunan nol untuk menghindari pembagian dengan nol
-        if dfx_val == 0:
+        if fx_aksen_value == 0:
             print("Turunan sama dengan nol, solusi tidak ditemukan.")
             return
 
-        # Hitung nilai x berikutnya
-        x_next = x0 - fx_val / dfx_val
+        x_next = x0 - fx_value / fx_aksen_value
         error = abs(x_next - x0)
-        print(f"Iterasi {iteration}: x = {x_next}, error = {error:.6e}")
+        print(f"Iterasi {iteration}: x = {x_next}, f(x) = {fx_value:.6e}, f'(x) = {fx_aksen_value:.6e}, error = {error:.6e}")
 
-        # Jika error lebih kecil dari toleransi, kita dapat berhenti
         if error < tol:
             print(f"\nAkar ditemukan: x = {x_next:.6f} dalam {iteration + 1} iterasi, Error = {error:.6e}")
             return
-
+        
         x0 = x_next
         iteration += 1
 
-    # Jika iterasi maksimal tercapai
     print(f"\nIterasi maksimal tercapai, solusi mungkin tidak konvergen. Nilai terakhir: x = {x0:.6f}")
 
 
