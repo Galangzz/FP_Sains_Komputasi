@@ -83,22 +83,22 @@ def secant_terminal():
     tol = float(input("Masukkan toleransi error: "))
     max_iter = int(input("Masukkan jumlah iterasi maksimal: "))
 
-    # Konversi string ke fungsi
-    f = sp.lambdify('x', sp.sympify(f_str))
+    
+    f = sp.lambdify('x', sp.sympify(f_str), 'numpy')
     
     for i in range(max_iter):
-        if abs(f(x1) - f(x0)) < 1e-12:  # Hindari pembagian dengan nol
+        if abs(f(x1) - f(x0)) < 1e-12: 
             print("Pembagian dengan nol terjadi.")
             return
         x_next = x1 - f(x1) * (x1 - x0) / (f(x1) - f(x0))
-        print(f"Iterasi {i}: x = {x_next}, error = {f(x_next):.6e}")
+        print(f"Iterasi {i}: x = {x_next}, error = {abs(x_next-x1):.6e}")
         if abs(x_next - x1) < tol:
             print(f"Akar ditemukan: {x_next}, Iterasi: {i}")
             return
         x0, x1 = x1, x_next
     print("Metode tidak konvergen.")
 
-# Menu untuk memilih metode
+
 def main():
     while True:
         print("\nPilih metode:")
@@ -108,7 +108,7 @@ def main():
         print("4. Exit")
         choice = int(input("Masukkan pilihan (1/2/3/4): "))
 
-# oooooo
+
 
         if choice == 1:
             simple_iteration_terminal()
@@ -125,5 +125,3 @@ if __name__ == "__main__":
     main()
 
 
-# mukaku
-# oooooo
