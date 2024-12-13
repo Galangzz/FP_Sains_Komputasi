@@ -8,22 +8,20 @@ def simple_iteration_terminal():
     max_iter = int(input("Masukkan jumlah iterasi maksimal: "))
 
     # Konversi string ke fungsi
-    g_sympy = sp.sympify(g_str)
-    g_prime = sp.diff(g_sympy, 'x')
-    g_prime_func = sp.lambdify('x', g_prime)
-    g = sp.lambdify('x', g_sympy)
-
-    # Cek apakah turunan memenuhi syarat konvergensi
-    if abs(g_prime_func(x0)) >= 1:
-        print("Fungsi g(x) tidak memenuhi syarat konvergensi. Coba g(x) lain.")
+    x = sp.symbols('x')
+    try:
+        g_ = sp.sympify(g_str)
+    except sp.SympifyError:
+        print("Fungsi tidak valid. Pastikan fungsi ditulis dengan benar.")
         return
-
-    # Iterasi
+    
+    g = sp.lambdify(x, g_, 'numpy')
+    
     x = x0
     for i in range(max_iter):
         try:
             x_next = g(x)
-            print(f"Iterasi {i}: x = {x_next}, g(x) = {abs(x_next-x):.6e}")
+            print(f"Iterasi {i}: x = {x_next}, Error = {abs(x_next-x):.6e}")
         except OverflowError:
             print("Overflow terjadi. Fungsi tidak stabil.")
             return
@@ -99,6 +97,7 @@ def secant_terminal():
             print("Pembagian dengan nol terjadi.")
             return
         x_next = x1 - f(x1) * (x1 - x0) / (f(x1) - f(x0))
+        print(f"Iterasi {i}: x = {x_next}, error = {f(x_next):.6e}")
         if abs(x_next - x1) < tol:
             print(f"Akar ditemukan: {x_next}, Iterasi: {i}")
             return
@@ -131,6 +130,6 @@ def main():
 if __name__ == "__main__":
     main()
 
-pppppp
+
 # mukaku
 # oooooo
