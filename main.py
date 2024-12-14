@@ -10,12 +10,14 @@ def run_file(file_path):
 
 def display_menu():
     print("\nMenu:")
-    print("1. Persamaan Non Linier")
+    print("1. Matriks")
+    print("2. Persamaan Non Linier")
     print("0. Exit")
 
 def main():
     file_paths = {
-        1: "persamaan_non_linear\controlPersNL.py",
+        1: "matriks\controllMatrix.py",
+        2: "persamaan_non_linear\controllPersNL.py"
     }
 
     while True:
