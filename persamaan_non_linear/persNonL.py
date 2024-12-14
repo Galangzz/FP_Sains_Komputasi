@@ -1,13 +1,11 @@
 import sympy as sp
 
 def simple_iteration_terminal():
-    # Input fungsi dalam format string
     g_str = input("Masukkan fungsi g(x) untuk Iterasi Sederhana: ")
     x0 = float(input("Masukkan tebakan awal (x0): "))
     tol = float(input("Masukkan toleransi error: "))
     max_iter = int(input("Masukkan jumlah iterasi maksimal: "))
 
-    # Konversi string ke fungsi
     x = sp.symbols('x')
     try:
         g_ = sp.sympify(g_str)
@@ -21,7 +19,7 @@ def simple_iteration_terminal():
     for i in range(max_iter):
         try:
             x_next = g(x)
-            print(f"Iterasi {i}: x = {x_next}, Error = {abs(x_next-x):.6e}")
+            print(f"Iterasi {i + 1}: x = {x_next}, Error = {abs(x_next-x):.6e}")
         except OverflowError:
             print("Overflow terjadi. Fungsi tidak stabil.")
             return
@@ -34,7 +32,6 @@ def simple_iteration_terminal():
 
 
 def newton_raphson():
-    # Input dari pengguna
     fx_str = input("Masukkan fungsi f(x): ")
     fx1_str = input("Masukkan fungsi f'(x): ")
     x0 = float(input("Masukkan tebakan awal (x0): "))
@@ -83,45 +80,25 @@ def secant_terminal():
     tol = float(input("Masukkan toleransi error: "))
     max_iter = int(input("Masukkan jumlah iterasi maksimal: "))
 
-    
-    f = sp.lambdify('x', sp.sympify(f_str), 'numpy')
+    try:
+        f = sp.lambdify('x', sp.sympify(f_str), 'numpy')
+    except sp.SystemError:
+        print("Fungsi tidak valid. Pastikan fungsi ditulis dengan benar.")
+        return
     
     for i in range(max_iter):
         if abs(f(x1) - f(x0)) < 1e-12: 
             print("Pembagian dengan nol terjadi.")
             return
         x_next = x1 - f(x1) * (x1 - x0) / (f(x1) - f(x0))
-        print(f"Iterasi {i}: x = {x_next}, error = {abs(x_next-x1):.6e}")
+        print(f"Iterasi {i}: x0 = {x0}, xn = {x1}, error = {abs(x_next-x1):.6e}")
         if abs(x_next - x1) < tol:
-            print(f"Akar ditemukan: {x_next}, Iterasi: {i}")
+            print(f"Akar ditemukan: {x1}, Iterasi: {i}")
             return
         x0, x1 = x1, x_next
     print("Metode tidak konvergen.")
 
 
-def main():
-    while True:
-        print("\nPilih metode:")
-        print("1. Iterasi Sederhana")
-        print("2. Newton-Raphson")
-        print("3. Secant")
-        print("4. Exit")
-        choice = int(input("Masukkan pilihan (1/2/3/4): "))
 
-
-
-        if choice == 1:
-            simple_iteration_terminal()
-        elif choice == 2:
-            newton_raphson()
-        elif choice == 3:
-            secant_terminal()
-        elif choice == 4:
-            break;
-        else:
-            print("Pilihan tidak valid.")
-
-if __name__ == "__main__":
-    main()
 
 
