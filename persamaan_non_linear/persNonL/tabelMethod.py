@@ -21,7 +21,13 @@ def metode_tabel():
         results = []
         for x in x_vals:
             results.append((x, f(x)))
+            
         for xi, yi in results:
             print(f"x = {xi:.4f}, f(x) = {yi:.4f}")
+            
+        for i in range(len(results) - 1):
+            if results[i][1] * results[i+1][1] < 0:
+                print(f"\nAkar berada di antara x = {results[i][0]:.1f} dan x = {results[i+1][0]:.1f}")
+                break
     except ValueError as e:
         print(e)

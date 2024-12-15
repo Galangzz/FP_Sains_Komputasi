@@ -18,14 +18,18 @@ def metode_regula_falsi():
         if tol <= 0:
             raise ValueError("Toleransi harus lebih besar dari 0.")
 
+        loop = 0
         while abs(b - a) > tol:
             c = b - (f(b) * (b - a)) / (f(b) - f(a))
-            if f(c) == 0:
+            if abs(f(c)) < tol:
                 break
             elif f(a) * f(c) < 0:
                 b = c
             else:
                 a = c
-        print(f"Akar (Regula Falsi): {c:.4f}")
+            
+            loop += 1
+            print(f"Iterasi {loop}: a = {a}, b = {b}, c = {c}, f(c) = {f(c)}")
+        print(f"Akar (Regula Falsi): {c:.4f} setelah {loop} iterasi.")
     except ValueError as e:
         print(e)
