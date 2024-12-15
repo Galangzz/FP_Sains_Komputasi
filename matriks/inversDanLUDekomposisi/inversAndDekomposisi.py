@@ -1,4 +1,5 @@
 import numpy as np
+from inputMatriks import input_matriks
 from scipy.linalg import lu
 
 # Fungsi untuk menghitung invers matriks
@@ -9,7 +10,7 @@ def invers_matriks():
         inv_matrix = np.linalg.inv(a)
         print(inv_matrix) 
     except np.linalg.LinAlgError:
-        return "Matriks tidak dapat diinvers karena singular (determinannya 0)."
+        print("Matriks tidak dapat diinvers karena singular (determinannya 0).")
 
 # Fungsi untuk melakukan dekomposisi LU
 def dekomposisi_lu():
@@ -21,18 +22,7 @@ def dekomposisi_lu():
     print("Matriks U (Upper Triangular):")
     print(U)
 
-# Input matriks
-def input_matriks():
-    print("Masukkan ukuran matriks (misal 3x3):")
-    n = int(input("Ukuran matriks: "))
-    matrix = []
-    
-    print(f"Masukkan elemen-elemen matriks {n}x{n}:")
-    for i in range(n):
-        row = list(map(float, input(f"Baris {i+1}: ").split()))
-        matrix.append(row)
-    
-    return np.array(matrix)
+
 
 
 
